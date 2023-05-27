@@ -1,6 +1,6 @@
 package com.example.demo366.entity;
 
-import com.example.demo366.Validator.annotation.ValidCategoryId;
+import com.example.demo366.validator.annotation.ValidCategoryId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
