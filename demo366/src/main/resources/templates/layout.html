@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+        lang="en">
 <head>
     <meta charset="UTF-8">
     <title>My App</title>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/CSS/bootstrap.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
 <header th:fragment="header">
@@ -23,6 +26,14 @@
                     </li>
                     <li class="nav-item"><a class="nav-link" href="/books">List Book</a></li>
                     <li class="nav-item"><a class="nav-link" href="/books/add">Add Book</a></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <form th:action="@{logout}" method="post">
+                            <button class="btn btn-outline-danger" type="submit">Logout</button>
+                        </form>
+                    </li>
+                    <li sec:authorize="!isAuthenticated()">
+                        <a class="btn btn-outline-primary" href="/login">Login</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -32,7 +43,7 @@
     <!----- noi dung trang----->
 </div>
 <footer th:fragment="footer">
-    <script th:src="@{static/JS/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
 </footer>
 </body>
 </html>

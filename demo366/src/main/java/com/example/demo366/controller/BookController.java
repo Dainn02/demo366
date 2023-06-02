@@ -3,12 +3,16 @@ package com.example.demo366.controller;
 import com.example.demo366.entity.Book;
 import com.example.demo366.services.BookService;
 import com.example.demo366.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -27,14 +31,23 @@ public class BookController {
     @GetMapping("/add")
     public String addBookForm(Model model){
         model.addAttribute("book",new Book());
-        model.addAttribute("categorise",categoryService.getAllCategories());
+        model.addAttribute("categories",categoryService.getAllCategories());
         return "book/add";
     }
+
     @PostMapping("/add")
-    public String addBook(@ModelAttribute("book") Book book){
+    public String addBook(@Valid @ModelAttribute("book")Book book, BindingResult bindingResult, Model model){
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("categories",categoryService.getAllCategories());
+            return"redirect:/books";
+        }
         bookService.addBook(book);
-        return "redirect:/books";
+        return"redirect:/books";
     }
+
+
+
     @GetMapping("/edit/{id}")
     public String editBookForm(@PathVariable("id") Long id, Model model) {
         Book book = bookService.getBookById(id);
@@ -58,4 +71,5 @@ public class BookController {
         bookService.deleteBook(id);
         return "redirect:/books";
     }
+
 }
